@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block content %}
+
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Profile</h1>
+                <p class="lead fw-normal text-white-50 mb-0">
+                    Configuration User profile
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <br><br><br><br>
+                <form method="POST" action="{% url 'user_configuration' %}">
+                    {% csrf_token %}
+                    {{ configur_profile.as_p }}
+                    <br><br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+
+                </form>
+                <br><br>
+                <a href="{% url "password_configuration" %}" class="btn btn-warning">
+                    Configure Password
+                </a>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br><br><br><br>
+    
+{% endblock content %}
