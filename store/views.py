@@ -4,9 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.db.models import Q
 
-from .models import Product, Category
-from .forms import SignupForm, ConfigurationUser, ConfigurationPassword
+from .models import Product, Category, UserProfile
+from .forms import SignupForm, ConfigurationUser, ConfigurationPassword, UserInfoForm
 
 def index(request):
     products = Product.objects.all()
@@ -48,8 +49,8 @@ def register_user(request):
             #   User loged in
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ("Welcome ..."))
-            return redirect('index')
+            messages.success(request, ("User created . please fill out your information below..."))
+            return redirect('info_configuration')
         else:
             messages.warning(request, ("Sorry !! something wrong ..."))
             return redirect('register')
@@ -97,8 +98,29 @@ def user_configuration(request):
     else:
         messages.warning(request, ("You most be logged in to access your profile"))
         return redirect('index')
-    
-def password_configuration(request):
+
+
+def info_configuration(request):
+    if request.user.is_authenticated:
+        current_user = UserProfile.objects.get(user__id=request.user.id)
+        configur_info = UserInfoForm(request.POST or None, instance=current_user)
+
+        if configur_info.is_valid():
+            configur_info.save()
+
+            messages.success(request, ("Your Profile Information has been Updated"))
+            return redirect('index')
+        return render(request, "info_configuration.html", {
+            'configur_profile':configur_info,
+
+        })
+    else:
+        messages.warning(request, ("You most be logged in to access your profile"))
+        return redirect('index')
+
+
+
+def pass_configuration(request):
     if request.user.is_authenticated:
         current_user = request.user
         if request.method == 'POST':
@@ -121,3 +143,22 @@ def password_configuration(request):
     else:
         messages.warning(request, ("You most be logged in to access your profile"))
         return redirect('index')
+    
+
+def search(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+
+        searched = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched))
+
+        if not searched:
+            messages.warning(request, ("Product not found"))
+            return render(request, 'search.html', {})
+        else:
+            return render(request, 'search.html', {
+                'searched':searched
+            })
+    else:    
+        return render(request, 'search.html', {
+
+    })

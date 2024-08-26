@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
+from .models import UserProfile
 
 
 class SignupForm(UserCreationForm):
@@ -32,11 +33,30 @@ class SignupForm(UserCreationForm):
 
 
 
+
+class UserInfoForm(forms.ModelForm):
+	phone = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}), required=False)
+	
+	address1 = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Address 1'}), required=False)
+	
+	address2 = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Address 2'}), required=False)
+	
+	city = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'City'}), required=False)
+	
+	state = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'State'}), required=False)
+	
+	zipcode = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Zip-code'}), required=False)					#		postal code
+	
+	country = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Country'}), required=False)
+	class Meta:
+		model = UserProfile
+		fields = ('phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country')
+
 class ConfigurationUser(UserChangeForm):
 	password = None
-	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
-	first_name = forms.CharField(label="", max_length=128, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
-	last_name = forms.CharField(label="", max_length=128, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
+	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}), required=False)
+	first_name = forms.CharField(label="", max_length=128, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}), required=False)
+	last_name = forms.CharField(label="", max_length=128, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}), required=False)
 
 	class Meta:
 		model = User
@@ -68,4 +88,6 @@ class ConfigurationPassword(SetPasswordForm):
 		self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm Password'
 		self.fields['new_password2'].label = ''
 		self.fields['new_password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+
+
 
