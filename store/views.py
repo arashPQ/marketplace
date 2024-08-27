@@ -3,11 +3,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django import forms
 from django.db.models import Q
+import json
 
 from .models import Product, Category, UserProfile
 from .forms import SignupForm, ConfigurationUser, ConfigurationPassword, UserInfoForm
+from cart.cart import Cart
+
+
 
 def index(request):
     products = Product.objects.all()
@@ -25,6 +28,16 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
+            current_user = UserProfile.objects.get(user__id=request.user.id)
+            saved_cart = current_user.old_cart
+            #   convert database str to python dic
+            if saved_cart:
+                converted_cart = json.loads(saved_cart)
+                cart = Cart(request)
+                for key, value in converted_cart.items():
+                    cart.db_add(product=key, quantity=value)
+
             messages.success(request, ("Welcome ..."))
             return redirect('index')
         else:

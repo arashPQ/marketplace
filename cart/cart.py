@@ -1,8 +1,11 @@
-from store.models import Product
+from store.models import Product, UserProfile
 
 class Cart():
     def __init__(self, request):
         self.session = request.session
+
+        self.request = request
+
 
         cart = self.session.get('session_key')
 
@@ -24,6 +27,13 @@ class Cart():
             self.cart[product_id] = int(product_quantity)
 
         self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            current_user = UserProfile.objects.filter(user__id=self.request.user.id)
+            #   Convert Dictionary to Json      {'1':1} -> {"1":1}
+            Jcart = str(self.cart)
+            Jcart = Jcart.replace("\'", "\"")
+            current_user.update(old_cart=str(Jcart))
 
     def __len__(self):
         return len(self.cart)
@@ -51,6 +61,16 @@ class Cart():
 
         self.session.modified = True
         carts = self.cart
+
+        #   Save updated cart when logout and login again
+
+        if self.request.user.is_authenticated:
+            current_user = UserProfile.objects.filter(user__id=self.request.user.id)
+            #   Convert Dictionary to Json      {'1':1} -> {"1":1}
+            Jcart = str(self.cart)
+            Jcart = Jcart.replace("\'", "\"")
+            current_user.update(old_cart=str(Jcart))
+
         return carts
 
     def delete(self, product):
@@ -61,6 +81,15 @@ class Cart():
             del self.cart[product_id]
         
         self.session.modified = True
+
+        #   Save deleted cart when logout and login again
+
+        if self.request.user.is_authenticated:
+            current_user = UserProfile.objects.filter(user__id=self.request.user.id)
+            #   Convert Dictionary to Json      {'1':1} -> {"1":1}
+            Jcart = str(self.cart)
+            Jcart = Jcart.replace("\'", "\"")
+            current_user.update(old_cart=str(Jcart))
 
 
     def cart_total(self):
@@ -80,3 +109,23 @@ class Cart():
                     else:
                         total = total + (product.price * value)
         return total
+    
+    def db_add(self, product, quantity):
+        product_id = str(product)
+        product_quantity = str(quantity)
+
+        if product_id in self.cart:
+            pass
+        else:
+            self.cart[product_id] = int(product_quantity)
+
+        self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            current_user = UserProfile.objects.filter(user__id=self.request.user.id)
+            #   Convert Dictionary to Json      {'1':1} -> {"1":1}
+            Jcart = str(self.cart)
+            Jcart = Jcart.replace("\'", "\"")
+            current_user.update(old_cart=str(Jcart))
+
+
