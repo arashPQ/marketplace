@@ -73,7 +73,7 @@
                       </div>
 
                       <br><br><br>
-                      <a href="{% url "index" %}" class="btn btn-secondary">
+                      <a href="{% url "store:index" %}" class="btn btn-secondary">
                         Go back to Home
                       </a>
                       <button type="button" data-index="{{ product.id }}" class="btn btn-primary update-cart">
@@ -89,9 +89,15 @@
               </div>
 
             {% endfor %}
+              <div align="right">
                 <h3>
                     Total : $ {{ totals }}
                 </h3>
+                <a href="{% url "payment:checkout" %}" class="btn btn-success">
+                  Checkout
+                </a>
+
+              </div>
             <br><br><br><br>
             {% else %}
             Your Cart is empty ...

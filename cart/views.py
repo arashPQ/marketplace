@@ -14,7 +14,7 @@ def cart(request):
 
     totals = cart.cart_total()
 
-    return render(request, 'cart.html',{
+    return render(request, 'cart/cart.html',{
         'cart_products': cart_products,
         'quantities': quantities,
         'totals':totals

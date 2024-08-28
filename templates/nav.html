@@ -1,34 +1,34 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{% url "index" %}">DJ Ecommerce</a>
+        <a class="navbar-brand" href="{% url "store:index" %}">DJ Ecommerce</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url "index" %}">Home</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url "search" %}">Search</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url "about" %}">About</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url "store:index" %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url "store:search" %}">Search</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "store:about" %}">About</a></li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="{% url "logout" %}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url "store:logout" %}">Logout</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li class="nav-item"><a class="nav-link" href="{% url "user_configuration" %}">Your Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "store:user_configuration" %}">Your Profile</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url "info_configuration" %}">Your Info</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "store:info_configuration" %}">Your Info</a></li>
                         </ul>
                     </li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{% url "login" %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url "store:login" %}">Login</a></li>
 
-                    <li class="nav-item"><a class="nav-link" href="{% url "register" %}">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url "store:register" %}">Register</a></li>
                 {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url "index" %}">All Products</a></li>
+                        <li><a class="dropdown-item" href="{% url "store:index" %}">All Products</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'category' "Programming-Course" %}">Programming Course</a></li>
-                        <li><a class="dropdown-item" href="{% url 'category' "Laptop" %}">Laptop</a></li>
+                        <li><a class="dropdown-item" href="{% url 'store:category' "Programming-Course" %}">Programming Course</a></li>
+                        <li><a class="dropdown-item" href="{% url 'store:category' "Laptop" %}">Laptop</a></li>
                     </ul>
                 </li>
             </ul>

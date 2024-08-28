@@ -8,18 +8,21 @@ import json
 
 from .models import Product, Category, UserProfile
 from .forms import SignupForm, ConfigurationUser, ConfigurationPassword, UserInfoForm
+
 from cart.cart import Cart
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 
 
 
 def index(request):
     products = Product.objects.all()
-    return render(request, "index.html",{
+    return render(request, "store/index.html",{
         'products': products
     })
 
 def about(request):
-    return render(request, "about.html")
+    return render(request, "store/about.html")
 
 def login_user(request):
     if request.method == 'POST':
@@ -39,17 +42,17 @@ def login_user(request):
                     cart.db_add(product=key, quantity=value)
 
             messages.success(request, ("Welcome ..."))
-            return redirect('index')
+            return redirect('store:index')
         else:
             messages.warning(request, ("Sorry !! something wrong ..."))
-            return redirect('login')
+            return redirect('store:login')
     else:
-        return render(request, 'login.html')
+        return render(request, 'store/login.html')
 
 def logout_user(request):
     logout(request)
     messages.success(request, ("See you later ..."))
-    return redirect('index')
+    return redirect('store:index')
 
 def register_user(request):
     form = SignupForm()
@@ -63,19 +66,19 @@ def register_user(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, ("User created . please fill out your information below..."))
-            return redirect('info_configuration')
+            return redirect('store:info_configuration')
         else:
             messages.warning(request, ("Sorry !! something wrong ..."))
-            return redirect('register')
+            return redirect('store:register')
     else:
-        return render(request, 'register.html', {
+        return render(request, 'store/register.html', {
             'form':form
         })
     
 
 def product(request, pk):
     product = Product.objects.get(id=pk)
-    return render(request, 'detail.html', {
+    return render(request, 'store/detail.html', {
         "product": product
     })
 
@@ -85,13 +88,13 @@ def category(request, cn):
     try:
         category = Category.objects.get(name=cn)
         products = Product.objects.filter(category=category)
-        return render(request, 'category.html', {
+        return render(request, 'store/category.html', {
             'products': products,
             'category': category
         })
     except:
         messages.warning(request, ("Sorry!! somethig wrong ..."))
-        return redirect('index')
+        return redirect('store:index')
 
 
 def user_configuration(request):
@@ -103,33 +106,39 @@ def user_configuration(request):
             configur_profile.save()
             login(request, current_user)
             messages.success(request, ("Your Profile has been Updated"))
-            return redirect('index')
-        return render(request, "user_configuration.html", {
+            return redirect('store:index')
+        return render(request, "store/user_configuration.html", {
             'configur_profile':configur_profile,
 
         })
     else:
         messages.warning(request, ("You most be logged in to access your profile"))
-        return redirect('index')
+        return redirect('store:index')
 
 
 def info_configuration(request):
     if request.user.is_authenticated:
         current_user = UserProfile.objects.get(user__id=request.user.id)
+        shipping_user = ShippingAddress.objects.get(user__id=request.user.id)         # Get user shipping information
+        
         configur_info = UserInfoForm(request.POST or None, instance=current_user)
 
-        if configur_info.is_valid():
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user )
+
+        if configur_info.is_valid() or shipping_form.is_valid():
             configur_info.save()
+            shipping_form.save()
 
             messages.success(request, ("Your Profile Information has been Updated"))
-            return redirect('index')
-        return render(request, "info_configuration.html", {
+            return redirect('store:index')
+        return render(request, "store/info_configuration.html", {
             'configur_profile':configur_info,
+            'shipping_form':shipping_form,
 
         })
     else:
         messages.warning(request, ("You most be logged in to access your profile"))
-        return redirect('index')
+        return redirect('store:index')
 
 
 
@@ -143,19 +152,19 @@ def pass_configuration(request):
                 password_form.save()
                 messages.success(request, ("Your Password has been Updated, Please Login again"))
                 logout(request)
-                return redirect('login')
+                return redirect('store:login')
             else:
                 for error in list(password_form.errors.values()):
                     messages.error(request, error)
                     return redirect('password_configuration')
         else:
             password_form = ConfigurationPassword(current_user)
-            return render(request, "password_configuration.html", {
+            return render(request, "store/password_configuration.html", {
                 'password_form':password_form
             })
     else:
         messages.warning(request, ("You most be logged in to access your profile"))
-        return redirect('index')
+        return redirect('store:index')
     
 
 def search(request):
@@ -166,12 +175,12 @@ def search(request):
 
         if not searched:
             messages.warning(request, ("Product not found"))
-            return render(request, 'search.html', {})
+            return render(request, 'store/search.html', {})
         else:
-            return render(request, 'search.html', {
+            return render(request, 'store/search.html', {
                 'searched':searched
             })
     else:    
-        return render(request, 'search.html', {
+        return render(request, 'store/search.html', {
 
     })

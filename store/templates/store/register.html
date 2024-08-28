@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-8">
                 <br><br><br><br>
-                <form method="POST" action="{% url 'register' %}">
+                <form method="POST" action="{% url 'store:register' %}">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <br><br>

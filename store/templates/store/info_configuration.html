@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    Profile
+    User Info
 {% endblock title %}
 
 {% block content %}
@@ -11,9 +11,9 @@
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Profile</h1>
+                <h1 class="display-4 fw-bolder">User Info</h1>
                 <p class="lead fw-normal text-white-50 mb-0">
-                    Configuration User profile
+                    Configuration User Information
                 </p>
             </div>
         </div>
@@ -23,17 +23,25 @@
         <div class="row">
             <div class="col-8">
                 <br><br><br><br>
-                <form method="POST" action="{% url 'user_configuration' %}">
+                <strong>
+                    Bulling Information :
+                </strong>
+                <br><br>
+                <form method="POST" action="{% url 'store:info_configuration' %}">
                     {% csrf_token %}
                     {{ configur_profile.as_p }}
                     <br><br>
+
+                    <strong>
+                        Shipping Information :
+                    </strong>
+                    <br><br>
+
+                    {{ shipping_form.as_p }}
                     <button type="submit" class="btn btn-primary">Save</button>
 
                 </form>
                 <br><br>
-                <a href="{% url "pass_configuration" %}" class="btn btn-warning">
-                    Configure Password
-                </a>
             </div>
         </div>
     </div>

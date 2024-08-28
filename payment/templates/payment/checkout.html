@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+    {% block title%}
+        Checkout
+    {% endblock title%}
+
+    {% block content %}
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Checkout Cart</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Shopping Cart Checkout ...</p>
+                </div>
+            </div>
+        </header>
+        <br><br><br><br><br><br><br><br>
+
+        <div class="container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-3">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Order
+                            </div>
+                            <div class="card-body">
+                                {% for product in cart_products %}
+                                    {{ product.name }}  :   
+                                        {% if product.is_sale %}
+                                            $ {{ product.sale_price }}
+                                        {% else %}
+                                            {{ product.price }}
+                                        {% endif %}
+                                    <br><br>
+                                    <small>Quantity :
+                                    {% for key, value in quantities.items %}
+                                        {% if key == product.id|slugify %}
+                                            {{ value }}
+                                        {% endif %}                                    
+                                    {% endfor %}</small>
+
+                                {% endfor %}
+                                <br><br><br>
+                                <h3>
+                                    Total : $ {{ total }}
+                                </h3>
+                                <br>
+                                
+                                <div align="right">
+                                    <a href="{% url "cart:update" %}" class="btn btn-outline-warning">
+                                        Update
+                                    </a>
+                                    <a href="{% url "cart:cart" %}" class="btn btn-lg btn-success">
+                                        Checkout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Shipping Infortmation
+                            </div>
+                            <div class="card-body">
+                                {{ shipping_form.as_p }}
+
+                            </div>
+                        </div>
+                        <br>
+                        <div align="right">
+                            <a href="#" class="btn btn-primary">
+                                Continue to Billing
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
+    {% endblock content %}
