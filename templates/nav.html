@@ -17,6 +17,19 @@
                             <li class="nav-item"><a class="nav-link" href="{% url "store:info_configuration" %}">Your Info</a></li>
                         </ul>
                     </li>
+
+                    {% if user.is_superuser %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Orders</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li class="nav-item"><a class="nav-link" href="{% url "payment:shipped_dashboard" %}">Shipped Orders</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "payment:not_shipped_dashboard" %}">UnShipped Orders</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+
+
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url "store:login" %}">Login</a></li>
 
