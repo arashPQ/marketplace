@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 import json
 
-from .models import Product, Category, UserProfile
+from .models import Product, Category, UserProfile, SubCategory
 from .forms import SignupForm, ConfigurationUser, ConfigurationPassword, UserInfoForm
 
 from cart.cart import Cart
@@ -95,6 +95,25 @@ def category(request, cn):
     except:
         messages.warning(request, ("Sorry!! somethig wrong ..."))
         return redirect('store:index')
+
+
+
+def subcategory(request, cn):
+    sn = sn.replace('-', ' ')
+
+    try:
+        subcategory = SubCategory.objects.get(name=sn)
+        products = Product.objects.filter(subcategory=subcategory)
+        return render(request, 'store/category.html', {
+            'products': products,
+            'subcategory': subcategory
+        })
+    except:
+        messages.warning(request, ("Sorry!! somethig wrong ..."))
+        return redirect('store:index')
+
+
+
 
 
 def user_configuration(request):

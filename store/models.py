@@ -39,6 +39,17 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 
+
+class SubCategory(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'SubCategories'
+
+
 class Customer(models.Model):
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
@@ -54,6 +65,7 @@ class Product(models.Model):
     name = models.CharField(max_length=64)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=8)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, default=1)
     description = models.CharField(max_length=256, default='', blank=True, null=True)
     image = models.ImageField(upload_to='uploads/product-image/')      # media/uploads/product-image
 

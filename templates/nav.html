@@ -36,11 +36,20 @@
                     <li class="nav-item"><a class="nav-link" href="{% url "store:register" %}">Register</a></li>
                 {% endif %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                    <a class="nav-link dropdown-toggle" data-bs-auto-close="outside" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url "store:index" %}">All Products</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'store:category' "Programming-Course" %}">Programming Course</a></li>
+                        <li class="dropend">
+                            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="{% url 'store:category' "Programming-Course" %}">
+                                Programming Course
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'store:subcategory' "Python" %}">Python</a></li>
+                                <li><a class="dropdown-item" href="{% url 'store:subcategory' "Java" %}">Java</a></li>
+                            </ul>
+                        </li>
+                            
                         <li><a class="dropdown-item" href="{% url 'store:category' "Laptop" %}">Laptop</a></li>
                     </ul>
                 </li>
