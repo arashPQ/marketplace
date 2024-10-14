@@ -41,16 +41,30 @@
                         <li><a class="dropdown-item" href="{% url "store:index" %}">All Products</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li class="dropend">
-                            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="{% url 'store:category' "Programming-Course" %}">
+                            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" >
                                 Programming Course
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'store:category' "Programming-Course" %}">All Programming Course</a></li>
+                                <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" href="{% url 'store:subcategory' "Python" %}">Python</a></li>
                                 <li><a class="dropdown-item" href="{% url 'store:subcategory' "Java" %}">Java</a></li>
+                                <li><a class="dropdown-item" href="{% url 'store:subcategory' "JavaScript" %}">JavaScript</a></li>
                             </ul>
                         </li>
                             
-                        <li><a class="dropdown-item" href="{% url 'store:category' "Laptop" %}">Laptop</a></li>
+                        <li class="dropend">
+                            <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" >
+                                Laptop
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'store:category' "Laptop" %}">All Laptop's</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'store:subcategory' "Acer" %}">Acer</a></li>
+                                <li><a class="dropdown-item" href="{% url 'store:subcategory' "Lenovo" %}">Lenovo</a></li>
+                            </ul>
+                        
+                        </li>
                     </ul>
                 </li>
             </ul>

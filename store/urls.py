@@ -15,7 +15,7 @@ urlpatterns = [
     path('pass_configur/', views.pass_configuration, name='pass_configuration'),
     path('pruduct/<int:pk>', views.product, name='product'),
     path('Category/<str:cn>', views.category, name='category'),
-    path('Category/<str:sn>', views.subcategory, name='subcategory'),
+    path('SubCategory/<str:subn>', views.subcategory, name='subcategory'),
     path('search/', views.search, name='search'),
 
 

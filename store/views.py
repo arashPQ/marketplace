@@ -98,18 +98,18 @@ def category(request, cn):
 
 
 
-def subcategory(request, cn):
-    sn = sn.replace('-', ' ')
+def subcategory(request, subn):
+    subn = subn.replace('-', ' ')
 
     try:
-        subcategory = SubCategory.objects.get(name=sn)
+        subcategory = SubCategory.objects.get(name=subn)
         products = Product.objects.filter(subcategory=subcategory)
-        return render(request, 'store/category.html', {
+        return render(request, 'store/subcategory.html', {
             'products': products,
             'subcategory': subcategory
         })
     except:
-        messages.warning(request, ("Sorry!! somethig wrong ..."))
+        messages.warning(request, ("Sorrrry!! somethig wrong ..."))
         return redirect('store:index')
 
 
