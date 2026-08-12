@@ -15,16 +15,13 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-## MIT LICENSE
+<h1 align="center">Hi 👋, I'm <a href="https://github.com/arashPQ" target="blank">
+arash</a></h1>
+<h3 align="center">A junior Software developer in &#127470&#127479 </h3>
 
-Copyright (c) 2024 arash paghe
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+- 🌱 I’m currently learning Rust Language
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+- 💬 Ask me about **Python**
+
+- 📫 How to reach me **arash_paqe@protonmail.com**
